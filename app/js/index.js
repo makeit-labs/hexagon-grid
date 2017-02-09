@@ -1,11 +1,10 @@
-import paper, { Point, Size, Color, Path, Group } from 'paper';
-
-const { RegularPolygon, Rectangle } = Path;
+import paper, { Point } from 'paper';
+import Hexagon from './hexagon';
 
 const canvas = document.querySelector('canvas');
 paper.setup(canvas);
 
-const size = 30;
+const size = 50;
 const dimensions = { x: 12, y: 12 };
 
 function pointFor({x, y}, radius) {
@@ -23,22 +22,8 @@ function pointFor({x, y}, radius) {
 for (let x = 0; x < dimensions.x; x++) {
   for (let y = 0; y < dimensions.y; y++) {
     let center = pointFor({x, y}, size);
-    const leftTop = center.subtract({x: Math.sqrt(3/4) * size, y: 1/2 * size });
-    const rightBottom = center.add({x: Math.sqrt(3/4) * size, y: size });
-
-    const hexagon = new RegularPolygon(center, 6, size);
-    hexagon.style = {
-      strokeWidth: 1,
-      strokeColor: 'black',
-      fillColor: '#fffccc'
-    };
-
-    const rect = new Rectangle(leftTop, rightBottom);
-    rect.fillColor = '#222';
-
-    const mask = new RegularPolygon(center, 6, size);
-    const group = new Group(mask, rect);
-    group.clipped = true;
+    const hexagon = new Hexagon(center, size);
+    hexagon.rotate(360 / 6 * Math.floor(Math.random() * 6));
   }
 }
 
